@@ -1,0 +1,48 @@
+:root {
+    --text-color: #f9f9f9;
+    --button-color: #505050;
+    --background-color: #1c1c1c;
+}
+
+body {
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+
+
+
+
+
+.calculator {
+    width: 350px;
+    height: 500px;
+
+    font-weight: bold;
+    font-size: 1.5em;
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    grid-template-areas:
+        "display display display display"
+        "add subtract multiply divide"
+        "seven eight nine clear"
+        "four five six backspace"
+        "one two three equals"
+        "zero zero decimal equals";
+    place-items: center;
+    border: 10px solid grey;
+    border-radius: 20px;
+    margin: 0 auto;
+}
+.calculator > * {
+
+    color: var(--text-color);
+    background-color: var(--button-color);
+}
+.display {
+    justify-self: end;
+}

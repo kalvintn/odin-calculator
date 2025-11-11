@@ -1,5 +1,5 @@
 # Description
-An interactive calculator using flexbox, JS functions, and DOM manipulation.  
+An interactive calculator using CSS grid, JS functions, and DOM manipulation.  
 
 # Author
 Kalvin Nguyen &copy; 2025.  
