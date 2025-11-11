@@ -16,3 +16,42 @@ for(let i = 0; i < l; i++){
     el.style.gridArea = grid_classes[i];
     calculator.appendChild(el);
 }
+
+
+
+
+operation = "";
+console.log(operate(10,2));
+
+// Uses global "operation" variable
+function operate(a, b){
+    switch(operation){
+        case "add":
+            return add(a, b);
+            break;
+        case "subtract":
+            return subtract(a, b);
+            break;
+        case "multiply":
+            return multiply(a, b);
+            break;
+        case "divide":
+            return divide(a, b);
+            break;
+        default:
+            console.log("No operand chosen.");
+    }
+}
+
+function add(a, b){
+    return a + b;
+}
+function subtract(a, b){
+    return a - b;
+}
+function multiply(a, b){
+    return a * b;
+}
+function divide(a, b){
+    return a / b;
+}
