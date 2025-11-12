@@ -84,12 +84,12 @@ function update(button){
         // If numbers and operator defined
         if(display_valueA && display_valueB && operation){
             display.innerHTML = operate(display_valueA, display_valueB);
-        }
 
-        // set result as first number, and reset the rest
-        display_valueA = display.innerHTML;
-        display_valueB = "";
-        operation = null;
+            // set result as first number, and reset the rest
+            display_valueA = display.innerHTML;
+            display_valueB = "";
+            operation = null;
+        }
     }
 }
 
