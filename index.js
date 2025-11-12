@@ -47,6 +47,20 @@ function update(button){
         if(!(display_valueA == "") && display_valueB == ""){
             operation = button.classList[0];
         }
+
+        // chaining: instead of hitting equals, hitting operator after second num defined
+        if(display_valueA && display_valueB && operation){
+            // simulate an equals press
+            if(display_valueA && display_valueB && operation){
+                display.innerHTML = operate(display_valueA, display_valueB);
+            }
+            display_valueA = display.innerHTML;
+            display_valueB = "";
+            operation = null;
+
+            // set operation as regular
+            operation = button.classList[0];
+        }
     }
 
     // Controls number entry
@@ -58,14 +72,10 @@ function update(button){
         }
          // Second number (operation set)
         else if(operation) {
-            // clear display
+            // update display with second value
             display.innerHTML = "";
-            
             display_valueB += button.innerHTML;
-
             display.innerHTML += display_valueB;
-
-            console.log(display_valueA + " " + display_valueB);
         }
     }
 
@@ -75,6 +85,11 @@ function update(button){
         if(display_valueA && display_valueB && operation){
             display.innerHTML = operate(display_valueA, display_valueB);
         }
+
+        // set result as first number, and reset the rest
+        display_valueA = display.innerHTML;
+        display_valueB = "";
+        operation = null;
     }
 }
 
@@ -108,7 +123,8 @@ function operate(a, b){
 }
 
 function add(a, b){
-    return a + b;
+    // avoid concatenation issues
+    return Number(a) + Number(b);
 }
 function subtract(a, b){
     return a - b;
