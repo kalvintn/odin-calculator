@@ -9,6 +9,9 @@ let display_valueB = "";
 let operation = null;
 let computationCompleted = false;
 
+// keyboard support
+let keyboardDOMButton;
+let validKeys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "+", "-", "*", "/", "c", "C", "Backspace", "Enter"];
 
 
 
@@ -156,6 +159,45 @@ function update(button){
         }
     }
 }
+
+
+
+
+
+// Keyboard Support
+document.addEventListener("keydown", function(event){
+    let valid = false;
+    if(validKeys.includes(event.key)) valid = true;
+
+    // Call update function with proper DOM button
+    if(valid){
+        let button;
+
+        switch(event.key){
+            case "0": button = document.querySelector(".zero"); break;
+            case "1": button = document.querySelector(".one"); break;
+            case "2": button = document.querySelector(".two"); break;
+            case "3": button = document.querySelector(".three"); break;
+            case "4": button = document.querySelector(".four"); break;
+            case "5": button = document.querySelector(".five"); break;
+            case "6": button = document.querySelector(".six"); break;
+            case "7": button = document.querySelector(".seven"); break;
+            case "8": button = document.querySelector(".eight"); break;
+            case "9": button = document.querySelector(".nine"); break;
+            case ".": button = document.querySelector(".decimal"); break;
+            case "+": button = document.querySelector(".add"); break;
+            case "-": button = document.querySelector(".subtract"); break;
+            case "*": button = document.querySelector(".multiply"); break;
+            case "/": button = document.querySelector(".divide"); break;
+            case "c": button = document.querySelector(".clear"); break;
+            case "C": button = document.querySelector(".clear"); break;
+            case "Backspace": button = document.querySelector(".backspace"); break;
+            case "Enter": button = document.querySelector(".equals"); break;
+        }
+
+        update(button);
+    }
+});
 
 
 
