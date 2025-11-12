@@ -1,10 +1,16 @@
+// for dynamic grid setup
 let calculator = document.querySelector(".calculator");
 let grid_values = ["", "&#x2b;", "&#8722;", "&#215;", "&#247;", "7", "8", "9", "AC", "4", "5", "6", "&#8592;", "1", "2", "3", "=", "0", "."];
 let grid_classes = ["display", "add", "subtract", "multiply", "divide", "seven", "eight", "nine", "clear", "four", "five", "six", "backspace", "one", "two", "three", "equals", "zero", "decimal"];
 
+// global values
 let display_valueA = "";
 let display_valueB = "";
 let operation = null;
+let computationCompleted = false;
+
+
+
 
 // Dynamic creation of calculator cells
 let grid_length = grid_values.length;
@@ -26,6 +32,7 @@ for(let i = 0; i < grid_length; i++){
 
 
 
+
 // Update function for display, values
 function update(button){
     let display = document.querySelector(".display");
@@ -33,9 +40,10 @@ function update(button){
     // Controls number entry
     if(!(isNaN(Number(button.innerHTML)))){
         // New Computation: hitting a digit after result output
-        if(display_valueA && operation == null){
+        if(display_valueA && operation == null && computationCompleted){
             display_valueA = button.innerHTML;
             display.innerHTML = button.innerHTML;
+            computationCompleted = false;
         }
         // First number (no operation set)
         else if(operation == null){
@@ -73,18 +81,6 @@ function update(button){
             operation = button.classList[0];
         }
     }
-
-
-    // Controls clear
-    if(button.innerHTML == "AC"){
-        // reset global values
-        display_valueA = "";
-        display_valueB = "";
-        operation = null;
-
-        // clear display
-        display.innerHTML = "";
-    }
     
 
     // Controls equals
@@ -98,6 +94,36 @@ function update(button){
             display_valueB = "";
             operation = null;
         }
+
+        // Special Case Flag: Press Digit after Result Computated
+        computationCompleted = true;
+    }
+
+
+    // Controls clear
+    if(button.innerHTML == "AC"){
+        // reset global values
+        display_valueA = "";
+        display_valueB = "";
+        operation = null;
+
+        // clear display
+        display.innerHTML = "";
+    }
+
+
+    // Controls decimal
+    if(button.classList.contains("decimal")){
+        // Check if decimal already added
+        if(!(display.innerText.includes("."))){
+            // Figure out if decimal belongs to num1 or num2
+            if(operation == null){
+                display_valueA += ".";
+            } else {
+                display_valueB += ".";
+            }
+            display.innerHTML += ".";
+        }
     }
 }
 
@@ -105,12 +131,6 @@ function update(button){
 
 
 
-
-
-
-
-
-// Uses global "operation" variable
 function operate(a, b){
     switch(operation){
         case "add":
@@ -129,6 +149,10 @@ function operate(a, b){
             console.log("No operand chosen.");
     }
 }
+
+
+
+
 
 function add(a, b){
     // avoid concatenation issues
