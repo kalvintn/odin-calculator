@@ -30,16 +30,27 @@ for(let i = 0; i < grid_length; i++){
 function update(button){
     let display = document.querySelector(".display");
 
-    // Controls clear
-    if(button.innerHTML == "AC"){
-        // reset global values
-        display_valueA = "";
-        display_valueB = "";
-        operation = null;
-
-        // clear display
-        display.innerHTML = "";
+    // Controls number entry
+    if(!(isNaN(Number(button.innerHTML)))){
+        // New Computation: hitting a digit after result output
+        if(display_valueA && operation == null){
+            display_valueA = button.innerHTML;
+            display.innerHTML = button.innerHTML;
+        }
+        // First number (no operation set)
+        else if(operation == null){
+            display_valueA += button.innerHTML;
+            display.innerHTML += button.innerHTML;
+        }
+         // Second number (operation set)
+        else if(operation) {
+            // update display with second value
+            display.innerHTML = "";
+            display_valueB += button.innerHTML;
+            display.innerHTML += display_valueB;
+        }
     }
+
 
     // Controls operators
     if(button.classList.contains("add") || button.classList.contains("subtract") || button.classList.contains("multiply") || button.classList.contains("divide")){
@@ -63,21 +74,18 @@ function update(button){
         }
     }
 
-    // Controls number entry
-    if(!(isNaN(Number(button.innerHTML)))){
-        // First number (no operation set)
-        if(operation == null){
-            display_valueA += button.innerHTML;
-            display.innerHTML += button.innerHTML;
-        }
-         // Second number (operation set)
-        else if(operation) {
-            // update display with second value
-            display.innerHTML = "";
-            display_valueB += button.innerHTML;
-            display.innerHTML += display_valueB;
-        }
+
+    // Controls clear
+    if(button.innerHTML == "AC"){
+        // reset global values
+        display_valueA = "";
+        display_valueB = "";
+        operation = null;
+
+        // clear display
+        display.innerHTML = "";
     }
+    
 
     // Controls equals
     if(button.classList.contains("equals")){
