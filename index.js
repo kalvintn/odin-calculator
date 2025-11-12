@@ -125,6 +125,36 @@ function update(button){
             display.innerHTML += ".";
         }
     }
+
+    // Controls backspace
+    if(button.classList.contains("backspace")){
+        // Special Characters that reset to zero: -x and .x or length 1
+        let reset_to_zero = false;
+        if(display.innerHTML.length == 1 || 
+            (display.innerHTML.length == 2 && display.innerHTML.charAt(0) == ".") || 
+            (display.innerHTML.length == 2 && display.innerHTML.charAt(0) == "-"))
+        {
+            reset_to_zero = true;
+        }
+
+        if(operation == null){
+            // Modifying num1
+            if(reset_to_zero){
+                display_valueA = "0";
+            } else {
+                display_valueA = display_valueA.substring(0, display_valueA.length - 1);
+            }
+            display.innerHTML = display_valueA;
+        } else {
+            // Modifying num2
+            if(reset_to_zero){
+                display_valueB = "0";
+            } else {
+                display_valueB = display_valueB.substring(0, display_valueB.length - 1);
+            }
+            display.innerHTML = display_valueB;
+        }
+    }
 }
 
 
