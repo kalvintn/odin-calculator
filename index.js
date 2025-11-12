@@ -1,11 +1,11 @@
 // for dynamic grid setup
 let calculator = document.querySelector(".calculator");
-let grid_values = ["", "&#x2b;", "&#8722;", "&#215;", "&#247;", "7", "8", "9", "AC", "4", "5", "6", "&#8592;", "1", "2", "3", "=", "0", "."];
-let grid_classes = ["display", "add", "subtract", "multiply", "divide", "seven", "eight", "nine", "clear", "four", "five", "six", "backspace", "one", "two", "three", "equals", "zero", "decimal"];
+let gridValues = ["", "&#x2b;", "&#8722;", "&#215;", "&#247;", "7", "8", "9", "AC", "4", "5", "6", "&#8592;", "1", "2", "3", "=", "0", "."];
+let gridClasses = ["display", "add", "subtract", "multiply", "divide", "seven", "eight", "nine", "clear", "four", "five", "six", "backspace", "one", "two", "three", "equals", "zero", "decimal"];
 
 // global values
-let display_valueA = "";
-let display_valueB = "";
+let displayValueA = "";
+let displayValueB = "";
 let operation = null;
 let computationCompleted = false;
 
@@ -15,14 +15,16 @@ let validKeys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "+", "-"
 
 
 
+
+
 // Dynamic creation of calculator cells
-let grid_length = grid_values.length;
-for(let i = 0; i < grid_length; i++){
+let gridLength = gridValues.length;
+for(let i = 0; i < gridLength; i++){
     let el = document.createElement("button");
     if (i==0) el.disabled = true; // disable display interactivity
-    el.innerHTML = grid_values[i];
-    el.classList.add(grid_classes[i]);
-    el.style.gridArea = grid_classes[i];
+    el.innerHTML = gridValues[i];
+    el.classList.add(gridClasses[i]);
+    el.style.gridArea = gridClasses[i];
 
     // add event listener to buttons (nums and operands)
     el.addEventListener("click", function () {
@@ -43,22 +45,22 @@ function update(button){
     // Controls number entry
     if(!(isNaN(Number(button.innerHTML)))){
         // New Computation: hitting a digit after result output
-        if(display_valueA && operation == null && computationCompleted){
-            display_valueA = button.innerHTML;
+        if(displayValueA && operation == null && computationCompleted){
+            displayValueA = button.innerHTML;
             display.innerHTML = button.innerHTML;
             computationCompleted = false;
         }
         // First number (no operation set)
         else if(operation == null){
-            display_valueA += button.innerHTML;
+            displayValueA += button.innerHTML;
             display.innerHTML += button.innerHTML;
         }
          // Second number (operation set)
         else if(operation) {
             // update display with second value
             display.innerHTML = "";
-            display_valueB += button.innerHTML;
-            display.innerHTML += display_valueB;
+            displayValueB += button.innerHTML;
+            display.innerHTML += displayValueB;
         }
     }
 
@@ -66,18 +68,18 @@ function update(button){
     // Controls operators
     if(button.classList.contains("add") || button.classList.contains("subtract") || button.classList.contains("multiply") || button.classList.contains("divide")){
         // only apply operand if num1 entered, and num2 not entered
-        if(!(display_valueA == "") && display_valueB == ""){
+        if(!(displayValueA == "") && displayValueB == ""){
             operation = button.classList[0];
         }
 
         // chaining: instead of hitting equals, hitting operator after second num defined
-        if(display_valueA && display_valueB && operation){
+        if(displayValueA && displayValueB && operation){
             // simulate an equals press
-            if(display_valueA && display_valueB && operation){
-                display.innerHTML = operate(display_valueA, display_valueB);
+            if(displayValueA && displayValueB && operation){
+                display.innerHTML = operate(displayValueA, displayValueB);
             }
-            display_valueA = display.innerHTML;
-            display_valueB = "";
+            displayValueA = display.innerHTML;
+            displayValueB = "";
             operation = null;
 
             // set operation as regular
@@ -89,12 +91,12 @@ function update(button){
     // Controls equals
     if(button.classList.contains("equals")){
         // If numbers and operator defined
-        if(display_valueA && display_valueB && operation){
-            display.innerHTML = operate(display_valueA, display_valueB);
+        if(displayValueA && displayValueB && operation){
+            display.innerHTML = operate(displayValueA, displayValueB);
 
             // set result as first number, and reset the rest
-            display_valueA = display.innerHTML;
-            display_valueB = "";
+            displayValueA = display.innerHTML;
+            displayValueB = "";
             operation = null;
         }
 
@@ -106,8 +108,8 @@ function update(button){
     // Controls clear
     if(button.innerHTML == "AC"){
         // reset global values
-        display_valueA = "";
-        display_valueB = "";
+        displayValueA = "";
+        displayValueB = "";
         operation = null;
 
         // clear display
@@ -121,14 +123,15 @@ function update(button){
         if(!(display.innerText.includes("."))){
             // Figure out if decimal belongs to num1 or num2
             if(operation == null){
-                display_valueA += ".";
+                displayValueA += ".";
             } else {
-                display_valueB += ".";
+                displayValueB += ".";
             }
             display.innerHTML += ".";
         }
     }
 
+    
     // Controls backspace
     if(button.classList.contains("backspace")){
         // Special Characters that reset to zero: -x and .x or length 1
@@ -143,19 +146,19 @@ function update(button){
         if(operation == null){
             // Modifying num1
             if(reset_to_zero){
-                display_valueA = "0";
+                displayValueA = "0";
             } else {
-                display_valueA = display_valueA.substring(0, display_valueA.length - 1);
+                displayValueA = displayValueA.substring(0, displayValueA.length - 1);
             }
-            display.innerHTML = display_valueA;
+            display.innerHTML = displayValueA;
         } else {
             // Modifying num2
             if(reset_to_zero){
-                display_valueB = "0";
+                displayValueB = "0";
             } else {
-                display_valueB = display_valueB.substring(0, display_valueB.length - 1);
+                displayValueB = displayValueB.substring(0, displayValueB.length - 1);
             }
-            display.innerHTML = display_valueB;
+            display.innerHTML = displayValueB;
         }
     }
 }
