@@ -92,6 +92,12 @@ function update(button){
     if(button.classList.contains("equals")){
         // If numbers and operator defined
         if(displayValueA && displayValueB && operation){
+            // Special Case: Divide by Zero
+            if(displayValueB == "0" && operation == "divide"){
+                alert("Nice try. Smell ya later!");
+                setTimeout(function() { location.reload() }, 200);
+            }
+
             display.innerHTML = operate(displayValueA, displayValueB);
 
             // set result as first number, and reset the rest
